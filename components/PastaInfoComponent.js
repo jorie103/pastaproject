@@ -6,10 +6,10 @@ import { PASTAS } from '../shared/pastas';
 function RenderPasta({pasta}) {
     if (pasta) {
         return (
-            <Card>
+            <Card
                 featuredTitle={pasta.name}
                 image={require('./images/4dc2327eb71687efbb55551e25812343.jpg')}
-            
+            >
                 <Text style={{margin: 10}}>
                     {pasta.description}
                 </Text>
