@@ -1,33 +1,39 @@
 import React, { Component } from 'react';
 import Directory from './DirectoryComponent';
 import PastaInfo from './PastaInfoComponent';
-import { View } from 'react-native';
-import { PASTAS } from '../shared/pastas';
+import { View, Platform} from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+
+const DirectoryNavigator = createStackNavigator(
+    {
+        Directory: { screen: Directory },
+        PastaInfo: { screen: PastaInfo }
+    }, 
+    {
+        initialRouteName: 'Directory',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+);
+
+const AppNavigator = createAppContainer(DirectoryNavigator);
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pastas: PASTAS,
-            selectedPasta: null
-        };
-    } onPastaSelect(pastaId) {
-        this.setState({selectedPasta: pastaId});
-    }
-
-
-
     render() {
         return (
-            <View style={{flex: 1}}>
-                <Directory
-                    pastas={this.state.pastas}
-                    onPress={pastaId => this.onPastaSelect(pastaId)}
-                />
-                <PastaInfo
-                    pasta={this.state.pastas.filter(
-                        pasta => pasta.id === this.state.selectedPasta)[0]}
-                />
+            <View style={{
+                flex: 1,
+                paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight
+            }}>
+                <AppNavigator />
             </View>
         );
     }
