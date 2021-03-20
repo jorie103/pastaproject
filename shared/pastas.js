@@ -1,7 +1,7 @@
 export const PASTAS= [
     {
         id: 0,
-        name: "Penne",
+        name: "Penne alla vodka",
         image: "/components/images/4dc2327eb71687efbb55551e25812343.jpg",
         feature: false,
         description: "Penne is one of the most famous Italian pasta shapes and is loved across Italy and the world. Penne translates to the word “pen”, and gets its name from its shape – a short cylinder-shaped pasta that has angled edges -pairs verry well with chuncky meat and frequently used in baked casserole dishes",

@@ -30,13 +30,13 @@ class Directory extends Component {
             );
         };
 
-            return (
+        return (
                 <FlatList
-                    data={this.state.pastas}
+                    data={this.state.pastas.pastas}
                     renderItem={renderDirectoryItem}
                     keyExtractor={item => item.id.toString()}
                 />
-            );
+        );
     }
 }
 

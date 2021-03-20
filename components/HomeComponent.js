@@ -1,9 +1,10 @@
-import React, { Component, ScrollView } from 'react';
-import { View, Text } from 'react-native';
+import React, { Component} from 'react';
+import { View, Text, ScrollView  } from 'react-native';
 import { Card } from 'react-native-elements';
 import { PASTAS } from '../shared/pastas';
-import { PROMOTIONS } from '../shared/promotions';
+import { REVIEWS} from '../shared/reviews';
 import { PARTNERS } from '../shared/partners';
+import { INGREDIENTS } from '../shared/ingredients';
 
 
 function RenderItem({item}) {
@@ -11,7 +12,7 @@ function RenderItem({item}) {
         return (
             <Card
                 featuredTitle={item.name}
-                image={require('./images/react-lake.jpg')}
+                image={require('./images/4dc2327eb71687efbb55551e25812343.jpg')}
             >
                 <Text style={{margin: 10}}>
                     {item.description}
@@ -27,8 +28,9 @@ class Home extends Component {
         super(props);
         this.state = {
             pastas: PASTAS,
-            promotions: PROMOTIONS,
-            partners: PARTNERS
+            reviews: REVIEWS,
+            partners: PARTNERS,
+            ingredients: INGREDIENTS
         };
     }
 
@@ -43,7 +45,7 @@ class Home extends Component {
                     item={this.state.pastas.filter(pasta => pasta.featured)[0]}
                 />
                 <RenderItem 
-                    item={this.state.promotions.filter(promotion => promotion.featured)[0]}
+                    item={this.state.reviews.filter(review => review.featured)[0]}
                 />
                 <RenderItem 
                     item={this.state.partners.filter(partner => partner.featured)[0]}
