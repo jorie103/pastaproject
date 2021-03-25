@@ -1,4 +1,4 @@
-export const PASTAS= [
+export const PASTASITES= [
     {
         id: 0,
         name: "Penne alla vodka",
@@ -34,7 +34,4 @@ export const PASTAS= [
         description: "Lasagna is a baked Italian dish consisting of wide strips of pasta cooked and layered with meat, vegetables, cheese, and tomato sauce",
        
     }
-
-
-
 ]

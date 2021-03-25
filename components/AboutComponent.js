@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, FlatList } from 'react-native';
 import { ListItem, Card} from 'react-native-elements';
-import { PARTNERS } from '../shared/partners';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
+
+const mapStateToProps = state => {
+    return {
+        sides: state.sides
+    };
+};
+
 
 function Mission () {
     return(
@@ -11,37 +20,53 @@ function Mission () {
     )
 }
 class About extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            partners: PARTNERS
-        };
-    }
 
     static navigationOptions = {
         title: 'About Us'
     }
 
     render() {
-        const renderPartner = ({item}) => {
+        const renderSide = ({item}) => {
             return (
                 <ListItem
                     title={item.name}
                     subtitle={item.description}
-                    leftAvatar={{ source: require('./images/4dc2327eb71687efbb55551e25812343.jpg')}}
+                    leftAvatar={{source: {uri: baseUrl + item.image}}}
                 />
             );
         };
         
+        if (this.props.sides.isLoading) {
+            return (
+                <ScrollView>
+                    <Mission />
+                    <Card
+                        title='Pasta Sides'>
+                        <Loading />
+                    </Card>
+                </ScrollView>
+            );
+        }
+        if (this.props.sides.errMess) {
+            return (
+                <ScrollView>
+                    <Mission />
+                    <Card
+                        title='Pasta Sides'>
+                        <Text>{this.props.sides.errMess}</Text>
+                    </Card>
+                </ScrollView>
+            );
+        }
         return (
             <ScrollView>
                <Mission />
                <Card
-                    title='Community Partners'>
-                    <Loading />
+                    title='Pasta Sides'>
+                    {/* <Loading /> */}
                     <FlatList
-                        data={this.state.pastas}
-                        renderItem={renderDirectoryItem}
+                        data={this.props.sides.sides}
+                        renderItem={renderSide}
                         keyExtractor={item => item.id.toString()}
                     />
                 </Card>
@@ -50,4 +75,5 @@ class About extends Component {
     }
 
 }
-export default About;
+
+export default connect(mapStateToProps)(About);

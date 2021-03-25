@@ -1,24 +1,30 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
-import { REVIEWS } from '../shared/reviews';
-import { PASTAS} from '../shared/pastas';
-// import { postFavorite } from '../redux/ActionCreators';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+        pastasites: state.pastasites,
+        reviews: state.reviews
+    };
+};
 
 
-function RenderPasta(props) {
-    const {pasta} = props;
-    if (pasta) {
+function RenderPastasite(props) {
+    const {pastasite} = props;
+    if (pastasite) {
         return (
             <Card
-                featuredTitle={pasta.name}
-                image={{uri: baseUrl + campsite.image}}
+                featuredTitle={pastasite.name}
+                image={{uri: baseUrl + pastasite.image}}
             >
                 <Text style={{margin: 10}}>
-                    {pasta.description}
+                    {pastasite.description}
                 </Text>
                 <Icon
-                    name={props.favorite ? 'pizza' : 'pizza-o'}
+                    name={props.favorite ? 'heart' : 'heart-o'}
                     type='font-awesome'
                     color='#f50'
                     raised
@@ -55,12 +61,10 @@ function RenderReviews({reviews}) {
     );
 }
 
-class PastaInfo extends Component {
+class PastasiteInfo extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            pastas: PASTAS,
-            reviews: REVIEWS,
             favorite: false
         }
     }
@@ -70,16 +74,16 @@ class PastaInfo extends Component {
     }
 
     static navigationOptions = {
-        title: 'Pasta Information'
+        title: 'Pastasite Information'
     }
 
     render() {
-        const pastaId = this.props.navigation.getParam('pastaId');
-        const pasta = this.state.pastas.filter(pasta => pasta.id === pastaId)[0];
-        const reviews = this.state.reviews.filter(review => review.pastaId === pastaId);
+        const pastasiteId = this.props.navigation.getParam('pastasiteId');
+        const pastasite = this.props.pastasites.pastasites.filter(pastasite => pastasite.id === pastasiteId)[0];
+        const reviews = this.props.reviews.reviews.filter(review => review.pastasiteId === pastasiteId);
         return (
             <ScrollView>
-                <RenderPasta pasta={pasta} 
+                <RenderPastasite pastasite={pastasite} 
                     favorite={this.state.favorite}
                     markFavorite={() => this.markFavorite()}
                 />
@@ -90,4 +94,4 @@ class PastaInfo extends Component {
 }
 
 
-export default PastaInfo;
+export default connect(mapStateToProps)(PastasiteInfo);

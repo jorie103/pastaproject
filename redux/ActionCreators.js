@@ -105,11 +105,11 @@ export const addPromotions = promotions => ({
     payload: promotions
 });
 
-export const fetchPartners = () => dispatch => {
+export const fetchSides = () => dispatch => {
     
-    dispatch(partnersLoading());
+    dispatch(sidesLoading());
 
-    return fetch(baseUrl + 'partners')
+    return fetch(baseUrl + 'sides')
         .then(response => {
                 if (response.ok) {
                     return response;
@@ -124,20 +124,20 @@ export const fetchPartners = () => dispatch => {
                 throw errMess;
             })
         .then(response => response.json())
-        .then(partners => dispatch(addPartners(partners)))
-        .catch(error => dispatch(partnersFailed(error.message)));
+        .then(sides => dispatch(addSides(sides)))
+        .catch(error => dispatch(sidesFailed(error.message)));
 };
 
-export const partnersLoading = () => ({
-    type: ActionTypes.PARTNERS_LOADING
+export const sidesLoading = () => ({
+    type: ActionTypes.SIDES_LOADING
 });
 
-export const partnersFailed = errMess => ({
-    type: ActionTypes.PARTNERS_FAILED,
+export const sidesFailed = errMess => ({
+    type: ActionTypes.SIDES_FAILED,
     payload: errMess
 });
 
-export const addPartners = partners => ({
-    type: ActionTypes.ADD_PARTNERS,
-    payload: partners
+export const addSides = sides => ({
+    type: ActionTypes.ADD_SIDES,
+    payload: sides
 });

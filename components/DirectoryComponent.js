@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import { PASTAS } from '../shared/pastas';
+import { View, FlatList, Text } from 'react-native';
+import { Tile } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
+
+const mapStateToProps = state => {
+    return {
+        pastasites: state.pastasites,
+    };
+};
 
 class Directory extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            pastas: PASTAS
-        };
-    }
 
     static navigationOptions = {
         title: 'Directory'
@@ -21,18 +22,30 @@ class Directory extends Component {
 
         const renderDirectoryItem = ({item}) => {
             return (
-                <ListItem
-                    title={item.name}
-                    subtitle={item.description}
-                    onPress={() => navigate('PastaInfo', { pastaId: item.id })}
-                    leftAvatar={{ source: require('./images/4dc2327eb71687efbb55551e25812343.jpg')}}
+                <Tile
+                title={item.name}
+                caption={item.description}
+                featured
+                onPress={() => navigate('PastasiteInfo', { pastasiteId: item.id })}
+                imageSrc={{uri: baseUrl + item.image}}
                 />
             );
         };
 
+        if (this.props.pastasites.isLoading) {
+            return <Loading />;
+        }
+        if (this.props.pastasites.errMess) {
+            return (
+                <View>
+                    <Text>{this.props.pastasites.errMess}</Text>
+                </View>
+            );
+        }
+    
         return (
                 <FlatList
-                    data={this.state.pastas.pastas}
+                    data={this.props.pastasites.pastasites}
                     renderItem={renderDirectoryItem}
                     keyExtractor={item => item.id.toString()}
                 />
@@ -40,4 +53,4 @@ class Directory extends Component {
     }
 }
 
-export default Directory;
+export default connect(mapStateToProps)(Directory);
